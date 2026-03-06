@@ -1,20 +1,38 @@
 package com.example.revisao
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.revisao.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+
+        binding.loginBtn.setOnClickListener {
+            val login = binding.loginInput.text.toString().trim()
+            val senha = binding.passwordImput.text.toString().trim()
+
+            if (login== "admin" && senha== "1234"){
+                val intent = Intent(this, SegundaTela::class.java)
+                intent.putExtra("LOGIN_USUARIO", login)
+                startActivity(intent)
+                finish()
+            }else{
+                Toast.makeText(this, "Login ou senha incorretos!", Toast.LENGTH_SHORT)
+            }
         }
+
     }
 }
